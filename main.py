@@ -2,8 +2,8 @@ from twilio.rest import Client
 import requests
 import urllib.parse
 
-account_sid = "AC1c59bf4f835869a1af5a94705a2255a5"
-auth_token = "b32ccad87fa330d5fbedca3908de8089"
+account_sid = 
+auth_token = 
 
 address = input("Address: ")
 url = 'https://nominatim.openstreetmap.org/search/' + urllib.parse.quote(address) +'?format=json'
