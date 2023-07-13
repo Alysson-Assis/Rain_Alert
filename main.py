@@ -1,7 +1,9 @@
 from twilio.rest import Client
-
 import requests
 import urllib.parse
+
+account_sid = "AC1c59bf4f835869a1af5a94705a2255a5"
+auth_token = "b32ccad87fa330d5fbedca3908de8089"
 
 address = input("Address: ")
 url = 'https://nominatim.openstreetmap.org/search/' + urllib.parse.quote(address) +'?format=json'
@@ -23,15 +25,23 @@ weather_params = {
 
 response = requests.get(Weatherbi_Endpoint, params=weather_params)
 response.raise_for_status()
-print(response)
+weather_data = response.json()
+weather_slice = weather_data['weather'][0]
+# print(weather_slice)
 
+mensagem = ''
 
-# will_rain = False
-#
-# for hour_data in weather_slice:
-#     condition_code = hour_data['weather'][0]['id']
-#     if int(condition_code) < 700:
-#         will_rain = True
-#
-# if will_rain:
-    # print("Bring an umbrella.")
+condition_code = weather_slice['id']
+if int(condition_code) < 700:
+    mensagem = "Bring an umbrella."
+else:
+    mensagem = "Clear sky"
+
+client = Client(account_sid, auth_token)
+
+message = client.messages.create(
+    body=mensagem,
+    from_="+12345162408",
+    to="+5511941109001"
+)
+print(message.status)
